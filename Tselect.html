@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+	<style>
+		div{ font-size: 12pt; }
+		#menu{ position:absolute;color:white;background-color:black;font-size: 12pt; padding: 4pt; 
+		}
+		.highlighter{ background-color: yellow; }
+		
+	</style>
+</head>
+<body>
+
+<!--
+JavaScript获取页面上被选中文字的方法技巧_javascript技巧_脚本之家  http://www.jb51.net/article/62141.htm
+<br>
+JavaScript获取文本框内选中文本的方法_javascript技巧_脚本之家  http://www.jb51.net/article/61244.htm
+<br>
+js 获取选中内容中含有的html标签 - 简书  https://www.jianshu.com/p/1eb037b300e8
+<br>
+
+移动端html5页面长按实现高亮全选文本内容的兼容解决方案 - CSDN博客  http://blog.csdn.net/freshlover/article/details/40432247
+<br>
+移动端click时间、touch事件、tap事件详解 - 不再犯错 - 博客园  https://www.cnblogs.com/luoguixin/p/6370201.html
+<br>
+也来说说touch事件与点击穿透问题 - 阿冒的前端之路 - SegmentFault  https://segmentfault.com/a/1190000003848737
+<br>
+-->
+
+<div id="menu" style="display:none;"> 
+	<span id="btnChangebackcolor" onclick222="changebackcolor()">荧光笔</span> 
+	| 分享 | 备注 | 
+	<span id="btnAlert" onclick2222="alert(seltext)">群问</span> 
+</div> 
+
+<div>
+abc<b>def</b>gh<br>ABC<i>DEF</i>GH
+</div>
+
+
+<div id="mycontent">
+	新浪体育
+新浪体育提供最快速最全面最专业的体育新闻和赛事报道,主要有以下栏目:中
+新浪新闻
+新浪网新闻中心是新浪网最重要的频道之一,24小时滚动报道国内、国际及社
+新浪邮箱
+新浪邮箱,提供以@sina.com和@sina.cn为后缀的免费邮箱。2G超大附件和50M
+新浪股票
+新浪股票提供最权威及时的证券资讯,7X24小时全球股票市场报价,拥有人气最
+新浪娱乐
+新浪娱乐是最新最全面的娱乐新闻信息综合站点,包括明星 、电影、最新影讯
+新浪财经
+新浪财经提供7X24小时财经资讯及全球金融市场报价,覆盖股票、债券、基金
+微博-随时随地发现新鲜事
+</div>
+
+<div id="mycontent222">
+zepto中的 tap 通过兼听绑定在 document 上的 touch 事件来完成 tap 事件的模拟的，是通过事件冒泡实现的。在点击完成时（touchstart / touchend）的 tap 事件需要冒泡到 document 上才会触发。而在冒泡到 document 之前，手指接触和离开屏幕（touchstart / touchend）是会触发 click 事件的。
+
+因为 click 事件有延迟（大概是300ms，为了实现safari的双击事件的设计），所以在执行完 tap 事件之后，弹出层立马就隐藏了，此时 click 事件还在延迟的 300ms 之中。当 300ms 到来的时候，click 到的其实是隐藏元素下方的元素。
+
+如果正下方的元素有绑定 click 事件，此时便会触发，如果没有绑定 click 事件的话就当没发生。如果正下方的是 input 输入框（或是 select / radio / checkbox），点击默认 focus 而弹出输入键盘，也就出现了上面的“点透”现象。</div>
+
+	<div>aaaaa</div>
+	<div>bbb</div>
+	<div>accc</div>
+	<div>ddd</div>
+	<div>aaaaa</div>
+	<div>bbb</div>
+	<div>accc</div>
+	<div>ddd</div>
+	<div>aaaaa</div>
+	<div>bbb</div>
+	<div>accc</div>
+	<div>ddd</div>
+	<div>aaaaa</div>
+	<div>bbb</div>
+	<div>accc</div>
+	<div>ddd</div>
+	<div>aaaaa</div>
+	<div>bbb</div>
+	<div>accc</div>
+	<div>ddd</div>
+	<div>aaaaa</div>
+	<div>bbb</div>
+	<div>accc</div>
+	<div>ddd</div>
+	<div>aaaaa</div>
+	<div>bbb</div>
+	<div>accc</div>
+	<div>ddd</div>
+	<div>aaaaa</div>
+	<div>bbb</div>
+	<div>accc</div>
+	<div>ddd</div>
+
+	<!--
+    <script src="http://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
+	-->
+	
+	<script src="js/zepto.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/touch.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+	var seltext = "";
+	var startpos = 0;
+	var endpos = 0;
+	var divId = "";
+	var menuVisible = false;
+
+	function changebackcolor(){
+		console.log("changebackcolor");
+		//alert(startpos+","+endpos);
+		//div = document.getElementById("mycontent");
+		div = document.getElementById(divId);
+
+		var flg = removeHighlighter(div);
+		console.log(div);
+		//if( flg) return;
+
+		content = div.innerHTML;
+		content = content.substring(0, startpos)+"<span class='highlighter'>" + content.substring(startpos, endpos) + "</span>" + content.substring(endpos);
+		//alert(content);
+		div.innerHTML = content;
+	}
+
+	function removeHighlighter(div){
+		if(!div) return false;
+		var sub = div.querySelectorAll('.highlighter');
+		console.log(sub);
+		if(!sub || sub.length==0) return false;
+		var n = sub.length;
+		for(var i=n-1; i>=0; i--){
+			//div.removeChild(sub[i]);
+			replaceTagWithText(sub[i]);
+		}
+		return true;
+	}
+	function replaceTagWithText(node){
+		var txt = node.textContent;
+		node.insertAdjacentHTML("afterEnd",txt);
+		node.parentNode.removeChild(node);
+	}
+
+
+	function getParent(node){
+		return node.parentNode;
+	}
+	function getParents(node){
+		if(!node) return [];
+		var a = [ node];
+		while(true){
+			node = getParent(node);
+			a.push(node);
+			if(node==document || node==null)break;
+		}
+		return a;
+	}
+	function getParentDiv(node){
+		if(!node) return null;
+		while(true){
+			node = getParent(node);
+			if(node.tagName=="DIV") break;
+			if(node==document || node==null)break;
+		}
+		return node;
+	}
+	function getTextPosInParent(node, parent)
+	{
+		var s = 0;
+		while(node!=parent){
+			s += getBrotherTextLength(node);
+			node = getParent(node);
+			if( node == document) break;
+		}
+		return s;
+	}
+	function getBrotherTextLength(node){
+		var parent = getParent(node);
+		console.log("parent.childNodes")
+		console.log(parent.childNodes);
+
+		//var idx = parent.childNodes.indexOf(node);
+		var idx = 0;
+		for(var i=0; i<parent.childNodes.length; i++){
+			if(parent.childNodes[i]==node) {idx=i;break;}
+		}
+
+		var s = 0;
+		for(var i=0; i<idx; i++){ //得到前面各节点的长度
+			s += getNodeTextLength(parent.childNodes[i]);
+		}
+		return s;
+	}
+	function getNodeTextLength(node)
+	{
+		//得到节点（含子节点）的文本的长度
+		if( ! node ) return 0;
+		var n = node.childNodes.length;
+		if( n==0 )	return node.textContent.length;
+		var s = 0; //得到子节点的长度总和，递归调用
+		for(var i=0; i<n; i++){
+			s += getNodeTextLength(node.childNodes[i]);
+		}
+		return s;
+	}
+		
+	function getCommonParent(node1, node2){
+		//得到共同的父结点
+		var a1 = getParents(node1).reverse();
+		var a2 = getParents(node2).reverse();
+		var n1 = a1.length;
+		var n2 = a2.length;
+		var n = n1<n2? n1: n2;
+		for (var i=0; i<n; i++ )
+		{
+			if(a1[i] != a2[i]) return a1[i-1];
+		}
+		return node1;
+	}
+	function getCommonParentDiv(node1, node2){
+		//得到共同的父结点
+		var a1 = getParents(node1).reverse();
+		var a2 = getParents(node2).reverse();
+		var n1 = a1.length;
+		var n2 = a2.length;
+		var n = n1<n2? n1: n2;
+		var target = document;
+		for (var i=0; i<n; i++ )
+		{
+			if(a1[i].tagName=="DIV" && a2[i].tagName=="DIV") target=a1[i]; //记下最前的div
+			if(a1[i] != a2[i]) return target; //a1[i-1];
+		}
+		return target;
+	}
+
+		
+
+    $(function(){
+        document.addEventListener("selectstart", function() {
+            console.log('Selection started'); 
+			return true;
+        }, false);
+        //document.addEventListener("selectend", function() {
+        //    console.log('Selection ended'); 
+        //}, false);
+		document.addEventListener("selectionchange", function() {
+			console.log('Selection changed.'); 
+
+			if( menuVisible ) return; //如果菜单处于显示状态，不改变select相关信息
+
+			//将选择信息，记录到全局变量中
+			var obj = window.getSelection();
+			console.log(obj+"");
+			seltext = obj+"";
+
+			var parent = getParentDiv(obj.focusNode)
+			startpos = getTextPosInParent(obj.anchorNode, parent) + obj.anchorOffset;
+			endpos = getTextPosInParent(obj.focusNode, parent) + obj.focusOffset;
+			divId = parent.id;
+			console.log("parent.id" + divId);
+		  
+		});
+		//alert($("div")[0]);
+		//$("div").on("mouseup", function (e) {
+		$("body").on("touchend", function (e) {
+			var menu = document.getElementById('menu');
+			
+
+			console.log("mouseup ");
+			var txt;
+			txt = window.getSelection();
+			if (txt.toString().length == 0) {
+				menu.style.display='none';
+				menuVisible = false;
+				return;
+			}
+			console.log(txt+"");
+			console.log(txt);
+			//console.log(txt.anchorNode);
+			//console.log(getParents(txt.anchorNode));
+			//console.log(getParents(txt.focusNode));
+			console.log(getCommonParent(txt.anchorNode, txt.focusNode));
+
+			var parentOffset = $(this).offset();
+			var x = e.pageX - parentOffset.left;
+			var y = e.pageY - parentOffset.top;
+			
+			e = e || event;
+			//var x = e.screenX, y = e.screenY;
+			var x = e.pageX, y = e.pageY;
+			//console.log(x+","+y);
+
+
+			var x=e.changedTouches[0].pageX;
+			var y=e.changedTouches[0].pageY;
+
+			console.log(e);
+			console.log(x+","+y);
+			menu.style.left = x + "px";
+			menu.style.top = y + "px";
+			menu.style.display='';
+			menuVisible = true;
+			
+	   });
+
+	   $("#btnChangebackcolor").on("tap", function(e){
+		   changebackcolor();
+		   //alert(seltext);
+		   e = e || event;
+		   e.stopPropagation();
+		   $("#menu").hide();
+		   menuVisible = false;
+
+	   });
+	   $("#btnAlert").on("tap", function(e){
+		   alert(seltext);
+		   e = e || event;
+		   e.stopPropagation();
+		   $("#menu").hide();
+		   menuVisible = false;
+	   });
+    })
+    </script>
+</body>
+</html>
