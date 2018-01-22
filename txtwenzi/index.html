@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<div style="margin-left: 20px;font-size: 20px;">
+		麤骉猋犇我的 无需渲染过多色彩 在黑夜行走的人 不会留下脚印，线索 、、、 冰冷的夜，寒铁铸造的弯刀 闪着寒光，幽幽诉说凄凉 复仇的烈焰，溅血的快感 挥刀，划过的瞬间 是无情，更是无奈 体内血在流，刀尖血在流 人刀合一时，冬天已远 春天，怎么还不来呢 6：《四面楚歌》 昨夜，我画的枣红马 在梦中扬蹄，驰骋沙场 火焰色的鬃毛，割破黑暗 飞过无月的天空，在词句中 攻破城池，掠夺你的领地 、、、 时间张开的网，正在收紧 逃逸的鸟鸣，被打入牢狱 夜半流窜的猫，躲不过封杀 关于疼痛的话题，天亮之后 一堆堆白骨，交出所有的证词
+		<div id="result" style="font-size:200px;"></div>
+	</div>
+    <script src="dict/pinyin_dict_withtone.js"></script>
+	<script src="dict/pinyinUtil.js"></script>
+	<script type="text/javascript">
+		function getPinyin() {
+			let value = window.getSelection().toString()
+			let result = '';
+			result = pinyinUtil.getPinyin(value, ' ', true);
+			let html = result;
+			document.getElementById('result').innerHTML = html;
+		}
+
+		document.addEventListener('touchend', function(e) {
+			let value = window.getSelection().toString()
+			console.log(value)
+			getPinyin();
+		}, false);
+		 	let x = e.pageX 
+			let y = e.pageY 
+			console.log(x)
+		
+	</script>
+
+	</body>
+
+</html>
